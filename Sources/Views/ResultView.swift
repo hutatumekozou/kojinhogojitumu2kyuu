@@ -5,6 +5,7 @@ struct ResultView: View {
     let correctAnswers: Int
     let totalQuestions: Int
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) var presentationMode
     
     private var scorePercentage: Double {
         Double(correctAnswers) / Double(totalQuestions) * 100
@@ -78,39 +79,29 @@ struct ResultView: View {
                 Spacer()
                 
                 // ボタン
-                VStack(spacing: 15) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Text("もう一度")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color(red: 0.2, green: 0.4, blue: 0.8))
-                            .cornerRadius(12)
-                    }
-                    
-                    Button(action: {
-                        // 広告を表示してからホームに戻る
-                        if let topViewController = TopViewController.getTopViewController() {
-                            AdsManager.shared.show(from: topViewController)
-                        }
+                Button(action: {
+                    // 広告を表示
+                    if let topViewController = TopViewController.getTopViewController() {
+                        AdsManager.shared.show(from: topViewController)
                         
-                        // NavigationViewのルートまで戻る
-                        dismiss()
-                        dismiss()
-                    }) {
-                        Text("最初に戻る")
-                            .font(.headline)
-                            .foregroundColor(Color(red: 0.2, green: 0.4, blue: 0.8))
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color.white)
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color(red: 0.2, green: 0.4, blue: 0.8), lineWidth: 2)
-                            )
+                        // 広告表示後にナビゲーションコントローラーのrootに戻る
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            topViewController.navigationController?.popToRootViewController(animated: true)
+                        }
+                    } else {
+                        // SwiftUIのfallback - 2つのビューをpopして最初に戻る
+                        presentationMode.wrappedValue.dismiss()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
+                }) {
+                    Text("最初に戻る")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                        .background(Color(red: 0.2, green: 0.4, blue: 0.8))
+                        .cornerRadius(12)
                 }
             }
             .padding()

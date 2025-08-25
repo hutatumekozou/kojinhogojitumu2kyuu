@@ -104,7 +104,7 @@ struct QuizView: View {
                             Text(selectedAnswer == questions[currentQuestionIndex].correct ? "正解！" : "不正解")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundColor(.black)
+                                .foregroundColor(selectedAnswer == questions[currentQuestionIndex].correct ? .black : .red)
                                 .padding(.horizontal)
                             
                             // 解説
