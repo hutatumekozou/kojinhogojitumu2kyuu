@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		100 /* FK2QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FK2QuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		100 /* 福祉住環境コーディネーター2級.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "福祉住環境コーディネーター2級.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		101 /* AppMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMain.swift; sourceTree = "<group>"; };
 		102 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		103 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		000 /* FK2QuizApp */ = {
+		000 = {
 			isa = PBXGroup;
 			children = (
 				300 /* Sources */,
@@ -119,7 +119,7 @@
 		500 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				100 /* FK2QuizApp.app */,
+				100 /* 福祉住環境コーディネーター2級.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,9 +127,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		001T /* FK2QuizApp */ = {
+		001T /* 福祉住環境コーディネーター2級 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 002C /* Build configuration list for PBXNativeTarget "FK2QuizApp" */;
+			buildConfigurationList = 002C /* Build configuration list for PBXNativeTarget "福祉住環境コーディネーター2級" */;
 			buildPhases = (
 				001S /* Sources */,
 				001F /* Frameworks */,
@@ -139,12 +139,12 @@
 			);
 			dependencies = (
 			);
-			name = FK2QuizApp;
+			name = "福祉住環境コーディネーター2級";
 			packageProductDependencies = (
 				301 /* GoogleMobileAds */,
 			);
 			productName = FK2QuizApp;
-			productReference = 100 /* FK2QuizApp.app */;
+			productReference = 100 /* 福祉住環境コーディネーター2級.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -162,7 +162,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 001C /* Build configuration list for PBXProject "FK2QuizApp" */;
+			buildConfigurationList = 001C /* Build configuration list for PBXProject "福祉住環境コーディネーター2級" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = ja;
 			hasScannedForEncodings = 0;
@@ -171,7 +171,7 @@
 				Base,
 				ja,
 			);
-			mainGroup = 000 /* FK2QuizApp */;
+			mainGroup = 000;
 			packageReferences = (
 				302 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
@@ -179,7 +179,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				001T /* FK2QuizApp */,
+				001T /* 福祉住環境コーディネーター2級 */,
 			);
 		};
 /* End PBXProject section */
@@ -398,7 +398,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		001C /* Build configuration list for PBXProject "FK2QuizApp" */ = {
+		001C /* Build configuration list for PBXProject "福祉住環境コーディネーター2級" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				001D /* Debug */,
@@ -407,7 +407,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		002C /* Build configuration list for PBXNativeTarget "FK2QuizApp" */ = {
+		002C /* Build configuration list for PBXNativeTarget "福祉住環境コーディネーター2級" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				002D /* Debug */,

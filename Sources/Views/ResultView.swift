@@ -26,10 +26,6 @@ struct ResultView: View {
         }
     }
     
-    private var illustrationIcon: String {
-        return "figure.seated.side"
-    }
-    
     private var illustrationColor: Color {
         switch scorePercentage {
         case 81...100:
@@ -87,27 +83,36 @@ struct ResultView: View {
                 .background(Color.white.opacity(0.9))
                 .cornerRadius(20)
                 
-                // メッセージ
-                Text(resultMessage)
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .background(Color.white.opacity(0.9))
-                    .cornerRadius(15)
-                
-                // イラスト表示エリア
-                VStack {
-                    // SF Symbolsを使用してイラスト代替
-                    Image(systemName: illustrationIcon)
-                        .font(.system(size: 100))
-                        .foregroundColor(illustrationColor)
-                        .padding(30)
-                        .background(Color.white.opacity(0.9))
-                        .cornerRadius(20)
-                        .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
+                // イラストと激励メッセージエリア
+                VStack(spacing: 15) {
+                    // メッセージ
+                    Text(resultMessage)
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                    
+                    // 女性のイラスト
+                    if let uiImage = UIImage(named: "woman_illustration") ?? 
+                       UIImage(contentsOfFile: Bundle.main.path(forResource: "woman_illustration", ofType: "png") ?? "") ?? 
+                       UIImage(contentsOfFile: "/Users/kukkiiboy/Desktop/Claude code/FK2QuizApp/Resources/Assets/woman_illustration.png") {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200, height: 200)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                    } else {
+                        // フォールバック用のSF Symbol
+                        Image(systemName: "figure.seated.side")
+                            .font(.system(size: 120))
+                            .foregroundColor(illustrationColor)
+                            .frame(width: 200, height: 200)
+                    }
                 }
+                .padding()
+                .background(Color.white.opacity(0.9))
+                .cornerRadius(20)
+                .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
                 
                 Spacer()
                 

@@ -18,11 +18,24 @@ struct HomeView: View {
                 .ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    // タイトル
-                    Text("福祉住環境コーディネーター2級")
-                        .font(.title2.bold())
-                        .foregroundColor(.black)
-                        .padding(.top, 20)
+                    // タイトルセクション
+                    VStack(spacing: 8) {
+                        Text("福祉住環境")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        
+                        Text("コーディネーター2級")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        
+                        Text("問題集")
+                            .font(.system(size: 48, weight: .bold))
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                    }
+                    .padding(.top, 40)
                     
                     // クイズボタングリッド
                     ScrollView {
