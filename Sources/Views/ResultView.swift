@@ -13,14 +13,35 @@ struct ResultView: View {
     
     private var resultMessage: String {
         switch scorePercentage {
-        case 90...100:
-            return "素晴らしい！完璧に理解されています！"
-        case 70..<90:
-            return "よくできました！もう少しで満点です！"
-        case 50..<70:
-            return "まずまずの結果です。復習してみましょう。"
-        default:
-            return "もう一度チャレンジしてみましょう！"
+        case 81...100:
+            return "素晴らしい！完璧に理解されています！\nこの調子で頑張ってください！"
+        case 61...80:
+            return "よくできました！\nもう少し勉強すれば満点も夢じゃありません！"
+        case 41...60:
+            return "まずまずの結果ですね。\n基礎をしっかり固めて再挑戦しましょう！"
+        case 21...40:
+            return "もう少し頑張りましょう！\n諦めずに勉強を続ければ必ず上達します！"
+        default: // 0-20%
+            return "大丈夫です、最初は誰でもこんなものです。\n一歩ずつ着実に学んでいきましょう！"
+        }
+    }
+    
+    private var illustrationIcon: String {
+        return "figure.seated.side"
+    }
+    
+    private var illustrationColor: Color {
+        switch scorePercentage {
+        case 81...100:
+            return Color.green
+        case 61...80:
+            return Color.blue
+        case 41...60:
+            return Color.orange
+        case 21...40:
+            return Color.purple
+        default: // 0-20%
+            return Color.pink
         }
     }
     
@@ -76,25 +97,24 @@ struct ResultView: View {
                     .background(Color.white.opacity(0.9))
                     .cornerRadius(15)
                 
+                // イラスト表示エリア
+                VStack {
+                    // SF Symbolsを使用してイラスト代替
+                    Image(systemName: illustrationIcon)
+                        .font(.system(size: 100))
+                        .foregroundColor(illustrationColor)
+                        .padding(30)
+                        .background(Color.white.opacity(0.9))
+                        .cornerRadius(20)
+                        .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
+                }
+                
                 Spacer()
                 
                 // ボタン
                 Button(action: {
-                    // 広告を表示
-                    if let topViewController = TopViewController.getTopViewController() {
-                        AdsManager.shared.show(from: topViewController)
-                        
-                        // 広告表示後にナビゲーションコントローラーのrootに戻る
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            topViewController.navigationController?.popToRootViewController(animated: true)
-                        }
-                    } else {
-                        // SwiftUIのfallback - 2つのビューをpopして最初に戻る
-                        presentationMode.wrappedValue.dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
+                    // 広告表示後に確実に初期画面（メニュー）に戻る
+                    AdsManager.shared.showInterstitialAndReturnToRoot()
                 }) {
                     Text("最初に戻る")
                         .font(.headline)
