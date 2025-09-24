@@ -1,63 +1,64 @@
 import SwiftUI
 
 struct HomeView: View {
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-
     var body: some View {
         NavigationView {
             ZStack {
-                // グラデーション背景
+                // シンプルなグラデーション背景
                 LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.6, green: 0.8, blue: 1.0),
-                        Color(red: 0.4, green: 0.6, blue: 0.9)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+                    colors: [
+                        Color(red: 0.75, green: 0.88, blue: 1.0),
+                        Color(red: 0.58, green: 0.77, blue: 0.98)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
                 .ignoresSafeArea()
-                
-                VStack(spacing: 20) {
-                    // タイトルセクション
-                    VStack(spacing: 8) {
-                        Text("福祉住環境")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
-                        
-                        Text("コーディネーター2級")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
-                        
+
+                VStack(alignment: .leading, spacing: 16) {
+                    // タイトル
+                    VStack(spacing: 4) {
+                        Text("個人情報保護実務検定 2級")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundStyle(.primary)
+                            .accessibilityLabel("個人情報保護実務検定 2級")
+                            .multilineTextAlignment(.center)
+
                         Text("問題集")
-                            .font(.system(size: 48, weight: .bold))
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
+                            .font(.system(size: 22, weight: .heavy))
+                            .foregroundStyle(.primary)
+                            .accessibilityHidden(true)
                     }
-                    .padding(.top, 40)
-                    
-                    // クイズボタングリッド
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 20)
+
+                    // 縦1列のボタン群（スクロール）
                     ScrollView {
-                        LazyVGrid(columns: columns, spacing: 16) {
+                        LazyVStack(alignment: .leading, spacing: 12) {
                             ForEach(QuizTopic.allCases) { topic in
                                 NavigationLink(destination: QuizView(topic: topic)) {
                                     Text(topic.title)
                                         .font(.headline)
-                                        .foregroundColor(Color(red: 0.2, green: 0.4, blue: 0.8))
-                                        .frame(maxWidth: .infinity, minHeight: 72)
-                                        .background(Color.white)
-                                        .cornerRadius(16)
-                                        .shadow(color: .gray.opacity(0.3), radius: 4, x: 0, y: 2)
+                                        .foregroundStyle(Color(red: 0.12, green: 0.39, blue: 0.85))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 14)
+                                        .padding(.horizontal, 16)
+                                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(.white.opacity(0.6), lineWidth: 1)
+                                        )
+                                        .shadow(radius: 1, y: 1)
+                                        .accessibilityLabel(topic.title)
                                 }
                                 .buttonStyle(PlainButtonStyle())
                             }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.bottom, 24)
                     }
-                    
-                    Spacer()
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 12)
             }
             .navigationBarHidden(true)
             .onAppear {

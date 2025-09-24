@@ -11,14 +11,14 @@ struct QuizView: View {
     
     var body: some View {
         ZStack {
-            // グラデーション背景
+            // シンプルなグラデーション背景
             LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.6, green: 0.8, blue: 1.0),
-                    Color(red: 0.4, green: 0.6, blue: 0.9)
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                colors: [
+                    Color(red: 0.75, green: 0.88, blue: 1.0),
+                    Color(red: 0.58, green: 0.77, blue: 0.98)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
             
