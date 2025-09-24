@@ -62,7 +62,7 @@ struct HomeView: View {
             }
             .navigationBarHidden(true)
             .onAppear {
-                AdsManager.shared.preload()
+                AdsManager.preload()
             }
         }
     }

@@ -25,22 +25,136 @@ struct ResultView: View {
             return "大丈夫です、最初は誰でもこんなものです。\n一歩ずつ着実に学んでいきましょう！"
         }
     }
-    
-    private var illustrationColor: Color {
+
+    private var bookColors: [Color] {
         switch scorePercentage {
         case 81...100:
-            return Color.green
+            return [.green, .mint, .teal, .cyan, .blue]
         case 61...80:
-            return Color.blue
+            return [.blue, .indigo, .purple, .cyan, .teal]
         case 41...60:
-            return Color.orange
+            return [.orange, .yellow, .red, .pink, .purple]
         case 21...40:
-            return Color.purple
+            return [.purple, .pink, .red, .orange, .brown]
         default: // 0-20%
-            return Color.pink
+            return [.gray, .secondary, .brown, .orange, .red]
         }
     }
-    
+
+    private var numberOfBooks: Int {
+        switch scorePercentage {
+        case 81...100: return 8
+        case 61...80: return 6
+        case 41...60: return 5
+        case 21...40: return 4
+        default: return 3
+        }
+    }
+
+    private var bookshelfView: some View {
+        VStack(spacing: 8) {
+            // 上段の本棚
+            HStack(spacing: 4) {
+                ForEach(0..<min(numberOfBooks, 5), id: \.self) { index in
+                    bookView(
+                        color: bookColors[index % bookColors.count],
+                        height: 50 + Double(index % 3) * 5,
+                        width: 14 + Double(index % 4) * 2
+                    )
+                }
+                Spacer(minLength: 0)
+            }
+            .frame(height: 60)
+            .padding(.horizontal, 16)
+            .background(
+                Rectangle()
+                    .fill(Color(red: 0.6, green: 0.4, blue: 0.2))
+                    .frame(height: 8)
+                    .offset(y: 30)
+            )
+
+            // 中段の本棚
+            if numberOfBooks > 5 {
+                HStack(spacing: 4) {
+                    ForEach(5..<numberOfBooks, id: \.self) { index in
+                        bookView(
+                            color: bookColors[index % bookColors.count],
+                            height: 45 + Double(index % 3) * 5,
+                            width: 16 + Double(index % 3) * 2
+                        )
+                    }
+                    Spacer(minLength: 0)
+                }
+                .frame(height: 55)
+                .padding(.horizontal, 16)
+                .background(
+                    Rectangle()
+                        .fill(Color(red: 0.6, green: 0.4, blue: 0.2))
+                        .frame(height: 8)
+                        .offset(y: 27.5)
+                )
+            }
+
+            // 下段の本棚（装飾用）
+            HStack(spacing: 4) {
+                ForEach(0..<4, id: \.self) { index in
+                    bookView(
+                        color: bookColors[(index + 2) % bookColors.count].opacity(0.7),
+                        height: 35 + Double(index % 3) * 5,
+                        width: 18 + Double(index % 2) * 2
+                    )
+                }
+                Spacer(minLength: 0)
+            }
+            .frame(height: 45)
+            .padding(.horizontal, 16)
+            .background(
+                Rectangle()
+                    .fill(Color(red: 0.6, green: 0.4, blue: 0.2))
+                    .frame(height: 8)
+                    .offset(y: 22.5)
+            )
+
+            // 本棚の基部
+            Rectangle()
+                .fill(Color(red: 0.5, green: 0.3, blue: 0.1))
+                .frame(height: 12)
+                .cornerRadius(2)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color(red: 0.95, green: 0.9, blue: 0.85))
+                .shadow(color: .black.opacity(0.1), radius: 3, x: 2, y: 2)
+        )
+    }
+
+    private func bookView(color: Color, height: Double, width: Double) -> some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(color)
+                .frame(width: width, height: height)
+                .overlay(
+                    VStack(spacing: 2) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.3))
+                            .frame(width: width * 0.7, height: 1)
+                        Rectangle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: width * 0.5, height: 1)
+                    }
+                    .offset(y: -height * 0.3)
+                )
+                .overlay(
+                    Rectangle()
+                        .fill(Color.black.opacity(0.1))
+                        .frame(width: 2, height: height)
+                        .offset(x: width/2 - 1)
+                )
+                .cornerRadius(2)
+        }
+    }
+
     var body: some View {
         ZStack {
             // シンプルなグラデーション背景
@@ -92,22 +206,9 @@ struct ResultView: View {
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                     
-                    // 女性のイラスト
-                    if let uiImage = UIImage(named: "woman_illustration") ?? 
-                       UIImage(contentsOfFile: Bundle.main.path(forResource: "woman_illustration", ofType: "png") ?? "") ?? 
-                       UIImage(contentsOfFile: "/Users/kukkiiboy/Desktop/Claude code/FK2QuizApp/Resources/Assets/woman_illustration.png") {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 200, height: 200)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                    } else {
-                        // フォールバック用のSF Symbol
-                        Image(systemName: "figure.seated.side")
-                            .font(.system(size: 120))
-                            .foregroundColor(illustrationColor)
-                            .frame(width: 200, height: 200)
-                    }
+                    // 本棚のイラスト
+                    bookshelfView
+                        .frame(width: 200, height: 200)
                 }
                 .padding()
                 .background(Color.white.opacity(0.9))
@@ -118,8 +219,13 @@ struct ResultView: View {
                 
                 // ボタン
                 Button(action: {
-                    // 広告表示後に確実に初期画面（メニュー）に戻る
-                    AdsManager.shared.showInterstitialAndReturnToRoot()
+                    // 新しいAdsManagerで広告表示
+                    if let root = UIApplication.shared.connectedScenes
+                        .compactMap({ ($0 as? UIWindowScene)?.keyWindow?.rootViewController })
+                        .first {
+                        AdsManager.show(from: root)
+                    }
+                    // TODO: 広告表示後の画面遷移処理を実装
                 }) {
                     Text("最初に戻る")
                         .font(.headline)
@@ -132,5 +238,8 @@ struct ResultView: View {
             .padding()
         }
         .navigationBarHidden(true)
+        .onAppear {
+            AdsManager.preload()
+        }
     }
 }
